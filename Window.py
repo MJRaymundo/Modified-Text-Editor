@@ -276,9 +276,9 @@ class Window:
 
         # Entry Box
         search_label = Label(search_window, text="Enter search term:")
-        search_label.pack(side=LEFT, padx=5)
+        search_label.grid(row=0, column=0, padx=5, pady=10)
         search_entry = Entry(search_window, width=30)
-        search_entry.pack(side=LEFT, padx=5)
+        search_entry.grid(row=0, column=1, padx=5, pady=10)
 
         # Define Terms
         text = self.TextBox
@@ -307,7 +307,7 @@ class Window:
 
             search_window.protocol("WM_DELETE_WINDOW", on_closing)
         
-        #Cancel Button
+        # Cancel Button
         def cancel():
             if self.mode == "normal":
                 text.tag_config('found', foreground='black')
@@ -317,6 +317,6 @@ class Window:
 
         # Buttons
         search_button = Button(search_window, text="Search", command=find_text)
-        search_button.pack(side=LEFT, padx=5, pady=10)
+        search_button.grid(row=1, column=0, padx=5, pady=10)
         cancel_button = Button(search_window, text="Cancel", command=cancel)
-        cancel_button.pack(side=LEFT, padx=5, pady=10)
+        cancel_button.grid(row=1, column=1, padx=5, pady=10)
