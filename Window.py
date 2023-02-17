@@ -7,6 +7,7 @@ from tkinter import *
 from tkinter import messagebox as message
 from tkinter import filedialog as fd
 from Stack import *
+import re
 
 
 #  Class Window is used for managing all the operations in TextEditor
@@ -50,6 +51,8 @@ class Window:
         self.editMenu.add_command(label="    Cut    Ctrl+X", command=self.cut)
         self.editMenu.add_command(label="    Copy    Ctrl+C", command=self.copy)
         self.editMenu.add_command(label="    Paste   Ctrl+V", command=self.paste)
+        # Added/Modified a "Search" Function
+        self.editMenu.add_command(label="    Search   ", command=self.search)
         self.menuBar.add_cascade(label="   Edit   ", menu=self.editMenu)
         # View Menu
         self.viewMenu = Menu(self.menuBar, tearoff=0, activebackground="#d5d5e2", bg="#eeeeee", bd=2,
@@ -262,3 +265,58 @@ class Window:
         text = self.TextBox.selection_get(selection='CLIPBOARD')
         self.TextBox.insert('insert', text)
         self.UStack.add(self.TextBox.get("1.0", "end-1c"))
+
+    # Modified Function #1
+    # 17. Search 
+    def search(self):
+        # Window for Search Box
+        search_window = Toplevel(self.window)
+        search_window.geometry("300x100+300+250")
+        search_window.wm_title("Search")
+
+        # Entry Box
+        search_label = Label(search_window, text="Enter search term:")
+        search_label.pack(side=LEFT, padx=5)
+        search_entry = Entry(search_window, width=30)
+        search_entry.pack(side=LEFT, padx=5)
+
+        # Define Terms
+        text = self.TextBox
+
+        # Finding the word function
+        def find_text():
+            text.tag_remove('found', 1.0, END)
+            word = search_entry.get()
+            if word:
+                idx = '1.0'
+                while 1:
+                    idx = text.search(word, idx, nocase=1, stopindex=END)
+                    if not idx: break
+                    lastidx = '%s+%dc' % (idx, len(word))
+                    text.tag_add('found', idx, lastidx)
+                    idx = lastidx
+                text.tag_config('found', foreground= 'red')
+            search_entry.focus_set()
+
+            def on_closing():
+                if self.mode == "normal":
+                    text.tag_config('found', foreground='black')
+                else:
+                    text.tag_config('found', foreground='BDBDBD')
+                search_window.destroy()
+
+            search_window.protocol("WM_DELETE_WINDOW", on_closing)
+        
+        #Cancel Button
+        def cancel():
+            if self.mode == "normal":
+                text.tag_config('found', foreground='black')
+            else:
+                text.tag_config('found', foreground='BDBDBD')
+            search_window.destroy()
+
+        # Buttons
+        search_button = Button(search_window, text="Search", command=find_text)
+        search_button.pack(side=LEFT, padx=5, pady=10)
+        cancel_button = Button(search_window, text="Cancel", command=cancel)
+        cancel_button.pack(side=LEFT, padx=5, pady=10)
