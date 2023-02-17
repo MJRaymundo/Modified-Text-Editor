@@ -53,6 +53,8 @@ class Window:
         self.editMenu.add_command(label="    Paste   Ctrl+V", command=self.paste)
         # Added/Modified a "Search" Function
         self.editMenu.add_command(label="    Search   ", command=self.search)
+        self.editMenu.add_command(label="    Sorting by line (Ascending)  ", command=self.sortingascending)
+        self.editMenu.add_command(label="    Sorting by line (Descending)  ", command=self.sortingdescending)
         self.menuBar.add_cascade(label="   Edit   ", menu=self.editMenu)
         # View Menu
         self.viewMenu = Menu(self.menuBar, tearoff=0, activebackground="#d5d5e2", bg="#eeeeee", bd=2,
@@ -320,3 +322,46 @@ class Window:
         search_button.grid(row=1, column=0, padx=5, pady=10)
         cancel_button = Button(search_window, text="Cancel", command=cancel)
         cancel_button.grid(row=1, column=1, padx=5, pady=10)
+
+    # Modified Function #2
+    # 18. A. Sorting text by line in ascending Order
+    def sortingascending(self):
+        # Get the text from the text widget
+        text = self.TextBox.get("1.0", "end-1c")
+
+        # Split the text into a list of lines
+        lines = text.split("\n")
+
+        # Remove empty lines from the list
+        lines = list(filter(lambda x: x.strip() != "", lines))
+
+        # Sort the lines in ascending order
+        lines.sort()
+
+        # Join the lines back into a single string with newlines
+        sorted_text = "\n".join(lines)
+
+        # Set the sorted text back into the text widget
+        self.TextBox.delete("1.0", "end")
+        self.TextBox.insert("1.0", sorted_text)
+
+    # 18. B. Sorting text by line in descending order
+    def sortingdescending(self):
+        # Get the text from the text widget
+        text = self.TextBox.get("1.0", "end-1c")
+
+        # Split the text into a list of lines
+        lines = text.split("\n")
+
+        # Remove empty lines from the list
+        lines = list(filter(lambda x: x.strip() != "", lines))
+
+        # Sort the lines in ascending order
+        lines.sort()
+
+        # Join the lines back into a single string with newlines
+        sorted_text = "\n".join(lines)
+
+        # Set the sorted text back into the text widget
+        self.TextBox.delete("1.0", "end")
+        self.TextBox.insert("1.0", sorted_text)
