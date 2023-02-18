@@ -1,7 +1,7 @@
 # Mark john M. Raymundo CoE 2-2 Data Structure and Algorithms
 # Modified Text Editor Project by github user: iampiyushjain
 # Source Link: https://github.com/iampiyushjain/Text-Editor
-# Modified Parts : Windows.py lines:
+# Modified Parts : Added Search and Sorting Options in Edit Menu.
 
 from tkinter import *
 from tkinter import messagebox as message
