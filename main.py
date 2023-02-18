@@ -1,5 +1,5 @@
 # Mark john M. Raymundo CoE 2-2 Data Structure and Algorithms
-# Modified Text Editor Project by github user: iampiyushjain
+# Text Editor Project by github user: iampiyushjain, modified to contain additional features
 # Source Link: https://github.com/iampiyushjain/Text-Editor
 # Modified Parts : Added Search and Sorting Options in Edit Menu.
 
