@@ -297,14 +297,14 @@ class Window:
                     lastidx = '%s+%dc' % (idx, len(word))
                     text.tag_add('found', idx, lastidx)
                     idx = lastidx
-                text.tag_config('found', foreground= 'red')
+                text.tag_config('found', foreground= 'yellow')
             search_entry.focus_set()
 
             def on_closing():
                 if self.mode == "normal":
                     text.tag_config('found', foreground='black')
                 else:
-                    text.tag_config('found', foreground='BDBDBD')
+                    text.tag_config('found', foreground="#BDBDBD")
                 search_window.destroy()
 
             search_window.protocol("WM_DELETE_WINDOW", on_closing)
@@ -313,8 +313,8 @@ class Window:
         def cancel():
             if self.mode == "normal":
                 text.tag_config('found', foreground='black')
-            else:
-                text.tag_config('found', foreground='BDBDBD')
+            elif self.mode == "dark":
+                text.tag_config('found', foreground="#BDBDBD")
             search_window.destroy()
 
         # Buttons
