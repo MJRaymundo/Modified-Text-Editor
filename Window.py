@@ -324,44 +324,60 @@ class Window:
         cancel_button.grid(row=1, column=1, padx=5, pady=10)
 
     # Modified Function #2
-    # 18. A. Sorting text by line in ascending Order
+    # 18. Sorting text by line in ascending Order
+    # A. Sort by line (Ascending) Method
     def sortingascending(self):
-        # Get the text from the text widget
-        text = self.TextBox.get("1.0", "end-1c")
-
-        # Split the text into a list of lines
-        lines = text.split("\n")
-
-        # Remove empty lines from the list
-        lines = list(filter(lambda x: x.strip() != "", lines))
-
+        # Get the text from the Text widget
+        txt = self.TextBox.get("1.0", "end-1c")
+        # Split the text into lines
+        lines = txt.split("\n")
         # Sort the lines in ascending order
-        lines.sort()
-
-        # Join the lines back into a single string with newlines
-        sorted_text = "\n".join(lines)
-
-        # Set the sorted text back into the text widget
+        sorted_lines = self.fileMenumerge_sort(lines)
+        # Join the sorted lines back into text
+        sorted_text = "\n".join(sorted_lines)
+        # Update the Text widget with the sorted text
         self.TextBox.delete("1.0", "end")
-        self.TextBox.insert("1.0", sorted_text)
+        self.TextBox.insert(END, sorted_text)
 
-    # 18. B. Sorting text by line in descending order
     def sortingdescending(self):
-        # Get the text from the text widget
-        text = self.TextBox.get("1.0", "end-1c")
+        # Get the text from the Text widget
+        txt = self.TextBox.get("1.0", "end-1c")
+        # Split the text into lines
+        lines = txt.split("\n")
+        # Sort the lines in descending order
+        sorted_lines = self.fileMenumerge_sort(lines)[::-1]
+        # Join the sorted lines back into text
+        sorted_text = "\n".join(sorted_lines)
+        # Update the Text widget with the sorted text
+        self.TextBox.delete("1.0", "end")
+        self.TextBox.insert(END, sorted_text)
 
-        # Split the text into a list of lines
-        lines = text.split("\n")
+    def fileMenumerge_sort(self, lines):
+        # Define the merge function
+        def merge(left, right):
+            result = []
+            i = j = 0
+            while i < len(left) and j < len(right):
+                if left[i] < right[j]:
+                    result.append(left[i])
+                    i += 1
+                else:
+                    result.append(right[j])
+                    j += 1
+            result += left[i:]
+            result += right[j:]
+            return result
 
-        # Remove empty lines from the list
-        lines = list(filter(lambda x: x.strip() != "", lines))
+        # Define the merge_sort function
+        def merge_sort(lst):
+            if len(lst) <= 1:
+                return lst
+            mid = len(lst) // 2
+            left = merge_sort(lst[:mid])
+            right = merge_sort(lst[mid:])
+            return merge(left, right)
 
         # Sort the lines in ascending order
-        lines.sort()
+        sorted_lines = merge_sort(lines)
 
-        # Join the lines back into a single string with newlines
-        sorted_text = "\n".join(lines)
-
-        # Set the sorted text back into the text widget
-        self.TextBox.delete("1.0", "end")
-        self.TextBox.insert("1.0", sorted_text)
+        return sorted_lines
